@@ -1,0 +1,19 @@
+Some gui tests
+===
+###Map Format
+\0 null byte
+
+Header 8 chars: ??RPGMAP
+Map name 8 chars: TILED###
+Map size ->
+	X: 16bit
+	Y: 16bit
+X*Y Blocks in this order
+1, 2, 3, 4
+5, 6, 7, 8
+9, 10, 11, 12...
+
+Each block has: 
+	tile index 16 bit
+	blocking 8 bit
+	empty space 8 bit
