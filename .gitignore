@@ -1,4 +1,5 @@
 data.pk3
 *.o
 *.sh
-
+game
+editor/*.map

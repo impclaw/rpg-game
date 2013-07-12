@@ -179,14 +179,24 @@ Map::Map(char * data, int size)
 	head[8]=0;
 	rawname[8]=0;
 	name = rawname;
-	width = *(data+17);
-	height = *(data+19);
+	memcpy(&width, data+17, sizeof(width));
+	memcpy(&height, data+19, sizeof(height));
 	int pos = 19+2;
-	tiles = new Tile[width * height];
+	printf("%s %s %d %d\n", head, rawname, width, height);
+	layer[0] = new Tile[width * height];
+	layer[1] = new Tile[width * height];
+	layer[2] = new Tile[width * height];
+	loadlayer(layer[0], data, &pos);
+	loadlayer(layer[1], data, &pos);
+	loadlayer(layer[2], data, &pos);
+}
+
+void Map::loadlayer(Tile * layer, char * data, int * pos)
+{
 	for(int n = 0; n < width * height; n++)
 	{
-		memcpy(&tiles[n].index, (data+pos), sizeof(tiles[n].index));
-		memcpy(&tiles[n].blocking, (data+pos+2), sizeof(tiles[n].blocking));
-		pos += 4;
+		memcpy(&layer[n].index, (data+*pos), sizeof(layer[n].index));
+		memcpy(&layer[n].blocking, (data+*pos+2), sizeof(layer[n].blocking));
+		*pos += 4;
 	}
 }

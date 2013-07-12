@@ -49,9 +49,13 @@ class Map
 {
 public:
 	Map(char*, int);
+	void loadlayer(Tile *, char *, int *);
 	unsigned short height, width;
 	std::string name;
-	Tile * tiles;
+	//Tile * layer1;
+	//Tile * layer2;
+	//Tile * layer3;
+	Tile * layer[3];
 };
 
 class Resources

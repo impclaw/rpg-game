@@ -64,7 +64,7 @@ void MapObject::step(int dir)
 		if(mapcoord < 0 || mapcoord > map->width * map->height);
 		else if(nextmapx >= map->width || nextmapy >= map->height);
 		else if(nextmapx < 0 || nextmapy < 0);
-		else if(map->tiles[mapcoord].blocking);
+		else if(map->layer[0][mapcoord].blocking);
 		else
 		{
 			walkstate = 1;

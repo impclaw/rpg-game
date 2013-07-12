@@ -43,12 +43,15 @@ void WanderState::render(GameEngine* engine)
 	int sy = -py + 600 / 2 - 32;
 	for(int n = 0; n < map->width * map->height; n++)
 	{
-		int tilen = map->tiles[n].index;
-		if(tilen == 0) 
-			continue; //Don't draw invisible tiles
-		tiledrawer->setTextureRect(sf::IntRect((tilen%32)*32, (tilen/32)*32, 32, 32));
-		tiledrawer->setPosition(sf::Vector2f(n%map->width*32+sx, n/map->width*32+sy));
-		engine->window->draw(*tiledrawer);
+		for(int l = 0; l < 3; l++)
+		{
+			int tilen = map->layer[l][0].index;
+			if(tilen == 0) 
+				continue; //Don't draw invisible tiles
+			tiledrawer->setTextureRect(sf::IntRect((tilen%32)*32, (tilen/32)*32, 32, 32));
+			tiledrawer->setPosition(sf::Vector2f(n%map->width*32+sx, n/map->width*32+sy));
+			engine->window->draw(*tiledrawer);
+		}
 	}
 	engine->player->render(engine);
 }
