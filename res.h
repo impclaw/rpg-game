@@ -41,15 +41,15 @@ public:
 class Tile
 {
 public:
-	short index;
-	char blocking;
+	unsigned short index;
+	unsigned char blocking;
 };
 
 class Map
 {
 public:
 	Map(char*, int);
-	short height, width;
+	unsigned short height, width;
 	std::string name;
 	Tile * tiles;
 };

@@ -1,5 +1,5 @@
 #include "res.h"
-
+#define SWSHORT(X) ((unsigned short)X>>8) | ((unsigned short)X<<8)
 using namespace std;
 
 /////////////////////////////////////////////
@@ -185,8 +185,8 @@ Map::Map(char * data, int size)
 	tiles = new Tile[width * height];
 	for(int n = 0; n < width * height; n++)
 	{
-		tiles[n].index = *(data+pos);
-		tiles[n].blocking = *(data+pos+2);
+		memcpy(&tiles[n].index, (data+pos), sizeof(tiles[n].index));
+		memcpy(&tiles[n].blocking, (data+pos+2), sizeof(tiles[n].blocking));
 		pos += 4;
 	}
 }

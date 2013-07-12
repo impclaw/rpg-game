@@ -1,10 +1,9 @@
 #pragma once
-#include "res.h"
-#include "player.h"
-#include <vector>
-
 #include <SFML/Graphics.hpp>
+#include <vector>
+#include "res.h"
 
+class Player;
 class GameState;
 
 class GameEngine

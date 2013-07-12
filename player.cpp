@@ -1,6 +1,5 @@
 #include "player.h"
 
-
 Character::Character()
 {
 	maxhp = hp = maxmp = mp = 0;
@@ -9,15 +8,13 @@ Character::Character()
 }
 
 
-Player::Player()
+Player::Player(GameEngine* engine)
 {
 	createparty();
-	x = y = 0;
-	stepsleft = 0;
-	walkstate = 0;
 	steps = 0;
 	kills = 0;
 	gold = 50;
+	obj = new MapObject(engine, "player");
 }
 
 void Player::createparty()
@@ -29,52 +26,59 @@ void Player::createparty()
 	party[0].xp = 42482;
 }
 
+int Player::getx()
+{
+	return obj->x;
+}
+
+int Player::gety()
+{
+	return obj->y;
+}
+
+void Player::setmap(Map * map)
+{
+	obj->setmap(map);
+}
+
 void Player::keydown(int key)
 {
-	if(walkstate == 0)
-	{
-		if(key == sf::Keyboard::Left)
-		{
-			walkstate = 1;
-			stepsleft = 32;
-		}
-		if(key == sf::Keyboard::Up)
-		{
-			walkstate = 2;
-			stepsleft = 32;
-		}
-		if(key == sf::Keyboard::Down)
-		{
-			walkstate = 3;
-			stepsleft = 32;
-		}
-		if(key == sf::Keyboard::Right)
-		{
-			walkstate = 4;
-			stepsleft = 32;
-		}
-	}
+
 }
 
 void Player::update()
 {
-	if(walkstate)
-	{
-		switch(walkstate)
-		{
-			case 1: x-=2; break;
-			case 2: y-=2; break;
-			case 3: y+=2; break;
-			case 4: x+=2; break;
-		}
-		stepsleft-=2;
-		if(stepsleft == 0)
-			walkstate = 0;
-	}
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		downdown = true;
+	else
+		downdown = false;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		leftdown = true;
+	else
+		leftdown = false;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		rightdown = true;
+	else
+		rightdown = false;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+		updown = true;
+	else
+		updown = false;
+	
+	if(downdown)
+		obj->step(1);
+	if(leftdown)
+		obj->step(2);
+	if(rightdown)
+		obj->step(3);
+	if(updown)
+		obj->step(4);
+	obj->update();
 }
 
 void Player::render(GameEngine* engine)
 {
+	obj->render(engine);
 }
 
 int xptolevel(int exp)

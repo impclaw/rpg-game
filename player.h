@@ -1,8 +1,8 @@
 #pragma once
-#include "res.h"
 #include <math.h>
-
-class GameEngine;
+#include "res.h"
+#include "mapobject.h"
+#include "gs.h"
 
 class Character
 {
@@ -20,16 +20,18 @@ public:
 class Player
 {
 public:
-	Player();
+	Player(GameEngine*);
 	Character party[4];
+	int steps, kills, gold;
+	MapObject* obj;
+	int getx();
+	int gety();
+	void setmap(Map * map);
 	void keydown(int key);
 	void update();
 	void render(GameEngine*);
-	int steps, kills, gold;
-	int x, y;
-	int walkstate;
-	int stepsleft;
 private:
+	bool leftdown, rightdown, updown, downdown;
 	void createparty();
 
 };

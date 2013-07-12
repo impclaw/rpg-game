@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "../gs.h"
+#include "../player.h"
 #include "../res.h"
 #include "../sys.h"
 #include "message.h"

@@ -1,9 +1,10 @@
 #include "gs.h"
+#include "player.h" // forward declarations
 
 void GameEngine::init(sf::RenderWindow * wnd)
 {
 	resources = new Resources("data.pk3");
-	player = new Player();
+	player = new Player(this);
 	window = wnd;
 }
 void GameEngine::cleanup()

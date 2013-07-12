@@ -9,6 +9,8 @@ int main()
 	sf::Clock clock;
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Test Game");
+	window.setKeyRepeatEnabled(false);
+	window.setFramerateLimit(0);
 	game.init(&window);
 	WanderState mm;
 	mm.init(&game);
