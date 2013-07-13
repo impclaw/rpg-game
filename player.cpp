@@ -15,6 +15,7 @@ Player::Player(GameEngine* engine)
 	kills = 0;
 	gold = 50;
 	obj = new MapObject(engine, "player");
+	obj->centered = true;
 }
 
 void Player::createparty()

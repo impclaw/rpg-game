@@ -49,12 +49,9 @@ class Map
 {
 public:
 	Map(char*, int);
-	void loadlayer(Tile *, char *, int *);
+	void loadlayer(Tile *, char **);
 	unsigned short height, width;
 	std::string name;
-	//Tile * layer1;
-	//Tile * layer2;
-	//Tile * layer3;
 	Tile * layer[3];
 };
 
@@ -63,11 +60,13 @@ class Resources
 private:
 	std::map<std::string, sf::Texture*> textures;
 	std::map<std::string, Map*> maps;
+	std::map<std::string, std::string*> texts;
 	std::string filename;
 	Package * package;
 public:
 	Resources(std::string filename);
 	sf::Texture *getTexture(std::string);
 	Map *getMap(std::string);
+	std::string *getText(std::string);
 	sf::Font mainfont;
 };

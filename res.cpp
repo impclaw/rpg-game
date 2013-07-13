@@ -154,6 +154,12 @@ Resources::Resources(std::string fname)
 			Map * map = new Map(data, f->origsize);
 			maps[tokens[1]] = map;
 		}
+		else if(tokens[0] == "text")
+		{
+			PackageFile * f = package->getfile(tokens[2]);
+			string * text = package->gettextdata(f);
+			texts[tokens[1]] = text;
+		}
 	}
 
 	if(!mainfont.loadFromFile("font.ttf"))
@@ -170,33 +176,37 @@ Map* Resources::getMap(std::string name)
 	return maps[name];
 }
 
+std::string *Resources::getText(std::string name)
+{
+	return texts[name];
+}
+
 Map::Map(char * data, int size)
 {
 	char head[9];
 	char rawname[9];
-	memcpy(head, data, 8);
-	memcpy(rawname, data+8, 8);
+	char * pos = data;
+	memcpy(head, pos, 8); pos += sizeof(char) * 8;
+	memcpy(rawname, pos, 8); pos += sizeof(char) * 8;
 	head[8]=0;
 	rawname[8]=0;
 	name = rawname;
-	memcpy(&width, data+17, sizeof(width));
-	memcpy(&height, data+19, sizeof(height));
-	int pos = 19+2;
-	printf("%s %s %d %d\n", head, rawname, width, height);
+	memcpy(&width, pos, sizeof(short)); pos += sizeof(short);
+	memcpy(&height, pos, sizeof(short)); pos += sizeof(short);
 	layer[0] = new Tile[width * height];
 	layer[1] = new Tile[width * height];
 	layer[2] = new Tile[width * height];
-	loadlayer(layer[0], data, &pos);
-	loadlayer(layer[1], data, &pos);
-	loadlayer(layer[2], data, &pos);
+	loadlayer(layer[0], &pos);
+	loadlayer(layer[1], &pos);
+	loadlayer(layer[2], &pos);
 }
 
-void Map::loadlayer(Tile * layer, char * data, int * pos)
+void Map::loadlayer(Tile * layer, char ** pos)
 {
 	for(int n = 0; n < width * height; n++)
 	{
-		memcpy(&layer[n].index, (data+*pos), sizeof(layer[n].index));
-		memcpy(&layer[n].blocking, (data+*pos+2), sizeof(layer[n].blocking));
-		*pos += 4;
+		memcpy(&layer[n].index, (*pos), sizeof(short));
+		memcpy(&layer[n].blocking, (*pos+2), sizeof(char));
+		*pos += sizeof(char) * 4;
 	}
 }

@@ -1,4 +1,9 @@
 #pragma once
+extern "C" {
+	#include <lua5.1/lua.h>
+	#include <lua5.1/lualib.h>
+	#include <lua5.1/lauxlib.h>
+}
 #include <SFML/Graphics.hpp>
 #include "../gs.h"
 #include "../res.h"
@@ -15,7 +20,10 @@ public:
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
 	virtual ~WanderState(){}
+	std::vector<MapObject *> objects;
 private:
 	sf::Sprite* tiledrawer;
+	std::string* mapscript;
+	lua_State* lua;
 	Map* map;
 };

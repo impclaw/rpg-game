@@ -1,15 +1,32 @@
 #include "mapobject.h"
+#include "player.h"
 
-MapObject::MapObject(GameEngine * engine, std::string spritename)
+void MapObject::_init(GameEngine * engine, std::string spritename)
 {
 	x = y = 0;
 	mapx = mapy = 0;
 	stepsleft = 0;
 	walkstate = 0;
 	direction = 1;
+	centered = false;
 	map = NULL;
 	sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
-	sprite->setPosition(800/2-32, 600/2-32);
+}
+
+MapObject::MapObject(GameEngine * engine, std::string spritename)
+{
+	_init(engine, spritename);
+	update();
+}
+
+MapObject::MapObject(GameEngine * engine, std::string spritename, std::string oname, int mx, int my)
+{
+	_init(engine, spritename);
+	mapx = mx;
+	mapy = my;
+	x = mapx * 32;
+	y = mapy * 32;
+	name = oname;
 	update();
 }
 
@@ -32,11 +49,22 @@ void MapObject::update()
 	int srcy = direction-1;
 	if(walkstate == 1)
 		srcx = stepsleft / 12;
+
 	sprite->setTextureRect(sf::IntRect(srcx*32, srcy*32, 32, 32));
 }
 
 void MapObject::render(GameEngine * engine)
 {
+	if(centered)
+		sprite->setPosition(800/2-32, 600/2-32);
+	else
+	{
+		int px = engine->player->getx(); // player coords
+		int py = engine->player->gety();
+		int sx = -px + 800 / 2 - 32; //player character location
+		int sy = -py + 600 / 2 - 32;
+		sprite->setPosition(sf::Vector2f(x+sx, y+sy));
+	}
 	engine->window->draw(*sprite);
 }
 
