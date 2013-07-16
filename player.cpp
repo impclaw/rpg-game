@@ -1,4 +1,5 @@
 #include "player.h"
+#include "states/wander.h"
 
 Character::Character()
 {
@@ -37,14 +38,28 @@ int Player::gety()
 	return obj->y;
 }
 
-void Player::setmap(Map * map)
-{
-	obj->setmap(map);
-}
-
 void Player::keydown(int key)
 {
-
+	if(key == sf::Keyboard::Return)
+	{
+		int targetx = obj->mapx;
+		int targety = obj->mapy;
+		switch(obj->direction)
+		{
+			case 1: targety++; break;
+			case 2: targetx--; break;
+			case 3: targetx++; break;
+			case 4: targety--; break;
+		}
+		MapObject * target = NULL;
+		for(auto o : obj->parent->objects)
+			if(targetx == o->mapx && targety == o->mapy)
+				target = o;
+		if(target != NULL)
+		{
+			obj->parent->activateobject(target);
+		}
+	}
 }
 
 void Player::update()

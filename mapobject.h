@@ -4,6 +4,8 @@
 #include "res.h"
 #include "gs.h"
 
+class WanderState;
+
 class MapObject
 {
 public:
@@ -13,12 +15,14 @@ public:
 	void update();
 	void render(GameEngine *);
 	void step(int dir);
-	void setmap(Map *);
+	void turn(int dir);
+	void setparent(WanderState *);
 	bool centered; //specific for the player
 	std::string name;
 	int x, y;
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
+	WanderState * parent; // Used for things like collisions
 private:
 	Map * map;
 	sf::Sprite* sprite;

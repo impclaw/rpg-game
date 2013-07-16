@@ -1,20 +1,5 @@
 #include "wander.h"
 
-WanderState *lua_wanderstate;
-GameEngine *lua_game_engine;
-
-static int lua_place_event(lua_State *L)
-{
-	const char * name = lua_tostring(L, 1);
-	const char * sprite = lua_tostring(L, 2);
-	int xpos = lua_tonumber(L, 3);
-	int ypos = lua_tonumber(L, 4);
-	printf("%s %s\n", name, sprite);
-	MapObject *obj = new MapObject(lua_game_engine, sprite, name, xpos, ypos);
-	lua_wanderstate->objects.push_back(obj);
-	return 0;
-}
-
 void WanderState::init(GameEngine* engine)
 {
 	tiledrawer = new sf::Sprite(*(engine->resources->getTexture("tiles")));
@@ -24,19 +9,38 @@ void WanderState::init(GameEngine* engine)
 	luaL_openlibs(lua);
 	lua_wanderstate = this;
 	lua_game_engine = engine;
-	lua_pushcfunction(lua, lua_place_event);
-	lua_setglobal(lua, "place_event");
+
+	//REGISTER LUA FUNCTIONS
+	//lua_pushcfunction(lua, lua_place_event);
+	//lua_setglobal(lua, "place_event");
+	luareg(lua, lua_place_event, "place_event");
+	luareg(lua, lua_message, "message");
 	luaL_dostring(lua, mapscript->c_str());
-	//char * lua="a=1+1;\n";
-	//lua_dostring(luavm, lua);
-	//Register all functions here
-	
-	engine->player->setmap(map);
+
+	engine->player->obj->setparent(this);
 }
 
 void WanderState::cleanup()
 {
 	lua_close(lua);
+}
+
+void WanderState::activateobject(MapObject * o)
+{
+	switch(lua_game_engine->player->obj->direction)
+	{
+		case 1: o->turn(4); break;
+		case 2: o->turn(3); break;
+		case 3: o->turn(2); break;
+		case 4: o->turn(1); break;
+	}
+	o->update();
+	std::string funcname = o->name + "_activate";
+	lua_getglobal(lua, funcname.c_str());
+	if(lua_pcall(lua, 0, 0, 0) != 0)
+	{
+		printf("error running function `f': %s", lua_tostring(lua, -1));
+	}
 }
 
 void WanderState::keypressed(GameEngine* engine, int key)
@@ -61,6 +65,8 @@ void WanderState::resume()
 void WanderState::update(GameEngine* engine)
 {
 	engine->player->update();
+	for(auto o : objects)
+		o->update();
 }
 
 void WanderState::render(GameEngine* engine)

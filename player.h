@@ -26,7 +26,6 @@ public:
 	MapObject* obj;
 	int getx();
 	int gety();
-	void setmap(Map * map);
 	void keydown(int key);
 	void update();
 	void render(GameEngine*);

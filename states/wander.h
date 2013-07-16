@@ -1,13 +1,10 @@
 #pragma once
-extern "C" {
-	#include <lua5.1/lua.h>
-	#include <lua5.1/lualib.h>
-	#include <lua5.1/lauxlib.h>
-}
 #include <SFML/Graphics.hpp>
 #include "../gs.h"
 #include "../res.h"
 #include "mainmenu.h"
+#include "luastuff.h"
+#define luareg(X, Y, Z) lua_pushcfunction(X, Y);lua_setglobal(X, Z)
 
 class WanderState : public GameState
 {
@@ -19,11 +16,12 @@ public:
 	virtual void resume();
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
+	void activateobject(MapObject * o);
 	virtual ~WanderState(){}
 	std::vector<MapObject *> objects;
+	Map* map;
 private:
 	sf::Sprite* tiledrawer;
 	std::string* mapscript;
 	lua_State* lua;
-	Map* map;
 };

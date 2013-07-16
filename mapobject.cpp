@@ -1,5 +1,6 @@
 #include "mapobject.h"
 #include "player.h"
+#include "states/wander.h"
 
 void MapObject::_init(GameEngine * engine, std::string spritename)
 {
@@ -68,9 +69,10 @@ void MapObject::render(GameEngine * engine)
 	engine->window->draw(*sprite);
 }
 
-void MapObject::setmap(Map * newmap)
+void MapObject::setparent(WanderState * state)
 {
-	map = newmap;
+	parent = state;
+	map = parent->map;
 }
 
 void MapObject::step(int dir)
@@ -86,10 +88,17 @@ void MapObject::step(int dir)
 			case 3: nextmapx++; break;
 			case 4: nextmapy--; break;
 		}
-		//printf("mX: %d mY: %d :: ", mapx, mapy);
-		//printf("nmX: %d nmY: %d\n", nextmapx, nextmapy);
+		
+		bool ocol = false;
+		for(auto o : parent->objects)
+		{
+			if(o->mapx == nextmapx && o->mapy == nextmapy)
+				ocol = true;
+		}
+		
 		int mapcoord = nextmapy * map->width + nextmapx;
-		if(mapcoord < 0 || mapcoord > map->width * map->height);
+		if (ocol);
+		else if(mapcoord < 0 || mapcoord > map->width * map->height);
 		else if(nextmapx >= map->width || nextmapy >= map->height);
 		else if(nextmapx < 0 || nextmapy < 0);
 		else if(map->layer[0][mapcoord].blocking);
@@ -104,3 +113,7 @@ void MapObject::step(int dir)
 	}
 }
 
+void MapObject::turn(int dir)
+{
+	direction = dir;
+}
