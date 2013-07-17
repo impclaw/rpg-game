@@ -20,7 +20,7 @@ MapObject::MapObject(GameEngine * engine, std::string spritename)
 	update();
 }
 
-MapObject::MapObject(GameEngine * engine, std::string spritename, std::string oname, int mx, int my)
+MapObject::MapObject(GameEngine * engine, std::string oname, std::string spritename, int mx, int my)
 {
 	_init(engine, spritename);
 	mapx = mx;
@@ -116,4 +116,14 @@ void MapObject::step(int dir)
 void MapObject::turn(int dir)
 {
 	direction = dir;
+}
+
+void MapObject::lua_onactivate(luabridge::LuaRef ll) 
+{
+	onactivatef = new luabridge::LuaRef(ll);
+}
+
+void MapObject::onactivate()
+{
+	(*onactivatef)();
 }

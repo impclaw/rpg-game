@@ -2,6 +2,7 @@
 #include "states/wander.h"
 #include "gs.h"
 #include "res.h"
+#include "lua.h"
 
 int main()
 {
@@ -12,9 +13,18 @@ int main()
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(0);
 	game.init(&window);
-	WanderState mm;
-	mm.init(&game);
-	game.pushstate(&mm);
+	lua_game = &game;
+	luareg();
+	std::string* luascript = game.resources->getText("main.lua");
+	//luaL_loadstring(lua, luascript->c_str());
+	if(luaL_dostring(lua, luascript->c_str()) == 1)
+	{
+		fprintf(stderr, "Lua Error: %s\n", lua_tostring(lua, -1));
+		exit(0);
+	}
+	//WanderState mm;
+	//mm.init(&game);
+	//game.pushstate(&mm);
 	while (window.isOpen())
 	{
 		sf::Event e;
@@ -34,7 +44,6 @@ int main()
 		game.render();
 		window.display();
 	}
-	
 	game.cleanup();
 }
 

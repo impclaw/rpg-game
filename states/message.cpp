@@ -47,6 +47,7 @@ void MessageState::cleanup()
 	delete titletxt;
 	delete titlebg;
 	delete bg;
+	onclose();
 }
 
 void MessageState::keypressed(GameEngine*, int key)
@@ -77,3 +78,12 @@ void MessageState::render(GameEngine* engine)
 	engine->window->draw(*titletxt);
 }
 
+void MessageState::lua_onclose(luabridge::LuaRef ll) 
+{
+	onclosef = new luabridge::LuaRef(ll);
+}
+
+void MessageState::onclose()
+{
+	(*onclosef)();
+}

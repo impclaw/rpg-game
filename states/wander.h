@@ -3,8 +3,6 @@
 #include "../gs.h"
 #include "../res.h"
 #include "mainmenu.h"
-#include "luastuff.h"
-#define luareg(X, Y, Z) lua_pushcfunction(X, Y);lua_setglobal(X, Z)
 
 class WanderState : public GameState
 {
@@ -17,11 +15,12 @@ public:
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
 	void activateobject(MapObject * o);
+	void addobject(MapObject*);
+
+
 	virtual ~WanderState(){}
 	std::vector<MapObject *> objects;
 	Map* map;
 private:
 	sf::Sprite* tiledrawer;
-	std::string* mapscript;
-	lua_State* lua;
 };

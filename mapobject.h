@@ -4,6 +4,15 @@
 #include "res.h"
 #include "gs.h"
 
+extern "C"
+{
+    #include <lua5.1/lua.h>
+    #include <lua5.1/lauxlib.h>
+    #include <lua5.1/lualib.h>
+}
+#include "lb/LuaBridge.h"
+extern lua_State *lua_main;
+
 class WanderState;
 
 class MapObject
@@ -23,6 +32,11 @@ public:
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
 	WanderState * parent; // Used for things like collisions
+
+	// Callback Functions
+	luabridge::LuaRef * onactivatef;
+	void lua_onactivate(luabridge::LuaRef ll); 
+	void onactivate();
 private:
 	Map * map;
 	sf::Sprite* sprite;

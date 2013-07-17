@@ -4,6 +4,14 @@
 #include "../res.h"
 #include "mainmenu.h"
 
+extern "C"
+{
+    #include <lua5.1/lua.h>
+    #include <lua5.1/lauxlib.h>
+    #include <lua5.1/lualib.h>
+}
+#include "../lb/LuaBridge.h"
+
 class MessageState : public GameState
 {
 public:
@@ -15,6 +23,12 @@ public:
 	virtual void resume();
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
+
+	// Callback Functions
+	luabridge::LuaRef * onclosef;
+	void lua_onclose(luabridge::LuaRef ll); 
+	void onclose();
+
 	virtual ~MessageState(){}
 private:
 	int position;
