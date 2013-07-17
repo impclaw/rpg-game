@@ -7,8 +7,7 @@
 class WanderState : public GameState
 {
 public:
-	virtual void init(GameEngine*);
-	virtual void cleanup();
+	WanderState(GameEngine*);
 	virtual void keypressed(GameEngine*, int key);
 	virtual void pause();
 	virtual void resume();
@@ -18,7 +17,7 @@ public:
 	void addobject(MapObject*);
 
 
-	virtual ~WanderState(){}
+	virtual ~WanderState();
 	std::vector<MapObject *> objects;
 	Map* map;
 private:

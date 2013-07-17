@@ -15,9 +15,7 @@ extern "C"
 class MessageState : public GameState
 {
 public:
-	virtual void init(GameEngine*);
-	virtual void init(GameEngine*, std::string, std::string, int);
-	virtual void cleanup();
+	MessageState(GameEngine*, std::string, std::string, int);
 	virtual void keypressed(GameEngine*, int key);
 	virtual void pause();
 	virtual void resume();
@@ -29,7 +27,7 @@ public:
 	void lua_onclose(luabridge::LuaRef ll); 
 	void onclose();
 
-	virtual ~MessageState(){}
+	virtual ~MessageState();
 private:
 	int position;
 	int fadedir;

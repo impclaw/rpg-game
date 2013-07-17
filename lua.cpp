@@ -4,12 +4,12 @@ using namespace luabridge;
 lua_State * lua = 0;
 GameEngine * lua_game = 0;
 
-void lua_pushstate (WanderState * test)
+void lua_pushstate (GameState * t)
 { 
-	test->init(lua_game);
-	lua_game->pushstate(test);
-	printf("Test WORKING\n"); 
+	lua_game->pushstate(t);
 }
+void lua_pushwander (WanderState * t) { lua_game->pushstate(t); }
+void lua_pushmessage (MessageState * t) { lua_game->pushstate(t); }
 
 GameEngine * lua_grabengine()
 {
@@ -22,8 +22,14 @@ void luareg()
 	luaL_openlibs(lua);
 	
 	getGlobalNamespace(lua)
-		.beginClass<WanderState>("CWanderState")
-			.addConstructor <void (*) (void)> ()
+		.beginClass<GameState>("CGameState")
+		.endClass()
+		.deriveClass<MessageState, GameState>("CMessageState")
+			.addConstructor <void (*) (GameEngine*, std::string, std::string, int)> ()
+			.addFunction ("onClose", &MessageState::lua_onclose)
+		.endClass()
+		.deriveClass<WanderState, GameState>("CWanderState")
+			.addConstructor <void (*) (GameEngine*)> ()
 			.addFunction ("add", &WanderState::addobject)
 		.endClass();
 
@@ -48,7 +54,9 @@ void luareg()
 		.endClass();*/
 
 	getGlobalNamespace(lua)
-		.addFunction("PushState", lua_pushstate)
+		//.addFunction("PushState", lua_pushstate)
+		.addFunction("PushWander", lua_pushwander)
+		.addFunction("PushMessage", lua_pushmessage)
 		.addFunction("GrabEngine", lua_grabengine);
 }
 

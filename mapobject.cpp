@@ -116,6 +116,7 @@ void MapObject::step(int dir)
 void MapObject::turn(int dir)
 {
 	direction = dir;
+	update();
 }
 
 void MapObject::lua_onactivate(luabridge::LuaRef ll) 

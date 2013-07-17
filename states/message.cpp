@@ -1,11 +1,6 @@
 #include "message.h"
 
-void MessageState::init(GameEngine* engine)
-{
-	init(engine, "", "", 1);
-}
-
-void MessageState::init(GameEngine* engine, std::string ttl, std::string msg, int pos)
+MessageState::MessageState(GameEngine* engine, std::string ttl, std::string msg, int pos)
 {
 	fadedir = 0;
 	fadevalue = 0;
@@ -41,13 +36,12 @@ void MessageState::init(GameEngine* engine, std::string ttl, std::string msg, in
 
 }
 
-void MessageState::cleanup()
+MessageState::~MessageState()
 {
 	delete bodytxt;
 	delete titletxt;
 	delete titlebg;
 	delete bg;
-	onclose();
 }
 
 void MessageState::keypressed(GameEngine*, int key)
@@ -67,7 +61,10 @@ void MessageState::resume()
 void MessageState::update(GameEngine* engine)
 {
 	if(fadedir == -1)
+	{
 		engine->popstate();
+		onclose();
+	}
 }
 
 void MessageState::render(GameEngine* engine)

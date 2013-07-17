@@ -117,8 +117,7 @@ void MainMenuState::keypressed(GameEngine* engine, int key)
 	{
 		if(arrowpos == MAINMENU_SAVE)
 		{
-			MessageState *ms = new MessageState();
-			ms->init(engine, "Savegame", "Your game has been saved. \nJust kidding! Saving is not implemented yet! \nPress enter to continue. ", 2);
+			MessageState *ms = new MessageState(engine, "Savegame", "Your game has been saved. \nJust kidding! Saving is not implemented yet! \nPress enter to continue. ", 2);
 			engine->pushstate(ms);
 		}
 	}
@@ -174,7 +173,7 @@ void MainMenuState::render(GameEngine* engine)
 	engine->window->draw(*fade);
 }
 
-void MainMenuState::cleanup()
+MainMenuState::~MainMenuState()
 {
 	for(int i = MAINMENU_ITEMS;i <= MAINMENU_SAVE; i++)
 	{

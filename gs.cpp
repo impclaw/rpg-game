@@ -37,8 +37,7 @@ void GameEngine::popstate()
 	if(states.size() > 0)
 	{
 		GameState * gs = states.back();
-		gs->cleanup();
-		delete gs;
+		//delete gs; //TODO: Are we managed by lua?
 		states.pop_back();
 	}
 	else

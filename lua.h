@@ -6,6 +6,7 @@ extern "C"
 }
 #include "lb/LuaBridge.h"
 #include "states/wander.h"
+#include "states/message.h"
 #include "gs.h"
 #include "res.h"
 

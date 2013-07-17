@@ -17,13 +17,12 @@ class MainMenuState : public GameState
 {
 public:
 	virtual void init(GameEngine*);
-	virtual void cleanup();
 	virtual void keypressed(GameEngine*, int key);
 	virtual void pause();
 	virtual void resume();
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
-	virtual ~MainMenuState() {}
+	virtual ~MainMenuState();
 	static const sf::Color outlinecolor;
 	static const sf::Color fillcolor;
 	static const sf::Color darkfillcolor;

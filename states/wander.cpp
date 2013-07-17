@@ -1,13 +1,13 @@
 #include "wander.h"
 
-void WanderState::init(GameEngine* engine)
+WanderState::WanderState(GameEngine* engine)
 {
 	tiledrawer = new sf::Sprite(*(engine->resources->getTexture("tiles")));
 	map = engine->resources->getMap("entry.map");
 	engine->player->obj->setparent(this);
 }
 
-void WanderState::cleanup()
+WanderState::~WanderState()
 {
 }
 

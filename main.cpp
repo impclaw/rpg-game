@@ -22,9 +22,6 @@ int main()
 		fprintf(stderr, "Lua Error: %s\n", lua_tostring(lua, -1));
 		exit(0);
 	}
-	//WanderState mm;
-	//mm.init(&game);
-	//game.pushstate(&mm);
 	while (window.isOpen())
 	{
 		sf::Event e;
