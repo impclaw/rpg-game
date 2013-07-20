@@ -23,13 +23,13 @@ class Package
 private:
 	std::string * filename;
 	std::ifstream * file;
-	std::vector<PackageFile*> * files;
 	int fpos;
 	int readint();
 	short readshort();
 	std::string * readstring(int sz);
 	void skip(int sz);
 public:
+	std::vector<PackageFile*> * files;
 	Package(std::string fname);
 	~Package();
 	PackageFile * getfile(std::string name);

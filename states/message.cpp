@@ -82,5 +82,5 @@ void MessageState::lua_onclose(luabridge::LuaRef ll)
 
 void MessageState::onclose()
 {
-	(*onclosef)();
+	if(onclosef != NULL) (*onclosef)();
 }

@@ -17,15 +17,12 @@ public:
 	std::string cclass;
 };
 
-class Player
+class Player : public MapObject
 {
 public:
 	Player(GameEngine*);
 	Character party[4];
 	int steps, kills, gold;
-	MapObject* obj;
-	int getx();
-	int gety();
 	void keydown(int key);
 	void update();
 	void render(GameEngine*);

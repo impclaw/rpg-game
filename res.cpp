@@ -2,6 +2,16 @@
 #define SWSHORT(X) ((unsigned short)X>>8) | ((unsigned short)X<<8)
 using namespace std;
 
+bool endsWith (std::string const &fullString, std::string const &ending)
+{
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+
+
 /////////////////////////////////////////////
 //           Package Functions
 //
@@ -132,33 +142,31 @@ Resources::Resources(std::string fname)
 {
 	filename = fname;
 	package = new Package(filename);
-	PackageFile * dir = package->getfile("directory");
-	string * directory = package->gettextdata(dir);
-	vector<string> lines = split(*directory, '\n');
-	for(unsigned int i = 0; i < lines.size(); i++)
+	for(auto pkg : *(package->files))
 	{
-		info("Loading Resource: %s", lines[i].c_str());
-		vector<string> tokens = split(lines[i], ' ');
-		if(tokens[0] == "texture")
+		std::string filename = *(pkg->name);
+		info("Loading Resource: %s", filename.c_str());
+		
+		if(endsWith(filename, "png"))
 		{
 			sf::Texture * tex = new sf::Texture();
-			PackageFile * f = package->getfile(tokens[2]);
+			PackageFile * f = package->getfile(filename);
 			char * data = package->getdata(f);
 			tex->loadFromMemory(data, f->origsize);
-			textures[tokens[1]] = tex;
+			textures[filename] = tex;
 		}
-		else if(tokens[0] == "map")
+		else if(endsWith(filename, "map"))
 		{
-			PackageFile * f = package->getfile(tokens[2]);
+			PackageFile * f = package->getfile(filename);
 			char * data = package->getdata(f);
 			Map * map = new Map(data, f->origsize);
-			maps[tokens[1]] = map;
+			maps[filename] = map;
 		}
-		else if(tokens[0] == "text")
+		else if(endsWith(filename, "lua"))
 		{
-			PackageFile * f = package->getfile(tokens[2]);
+			PackageFile * f = package->getfile(filename);
 			string * text = package->gettextdata(f);
-			texts[tokens[1]] = text;
+			texts[filename] = text;
 		}
 	}
 

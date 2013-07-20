@@ -15,13 +15,7 @@ int main()
 	game.init(&window);
 	lua_game = &game;
 	luareg();
-	std::string* luascript = game.resources->getText("main.lua");
-	//luaL_loadstring(lua, luascript->c_str());
-	if(luaL_dostring(lua, luascript->c_str()) == 1)
-	{
-		fprintf(stderr, "Lua Error: %s\n", lua_tostring(lua, -1));
-		exit(0);
-	}
+	runluafile("main.lua");
 	while (window.isOpen())
 	{
 		sf::Event e;

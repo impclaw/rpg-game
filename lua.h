@@ -16,3 +16,4 @@ extern GameEngine * lua_game;
 void lua_pushstate (WanderState * test);
 GameEngine * lua_grabengine();
 void luareg();
+void runluafile(std::string s);

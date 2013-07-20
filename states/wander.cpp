@@ -2,9 +2,9 @@
 
 WanderState::WanderState(GameEngine* engine)
 {
-	tiledrawer = new sf::Sprite(*(engine->resources->getTexture("tiles")));
+	tiledrawer = new sf::Sprite(*(engine->resources->getTexture("tiles.png")));
 	map = engine->resources->getMap("entry.map");
-	engine->player->obj->setparent(this);
+	engine->player->setparent(this);
 }
 
 WanderState::~WanderState()

@@ -25,6 +25,7 @@ public:
 	void render(GameEngine *);
 	void step(int dir);
 	void turn(int dir);
+	void face(MapObject * target);
 	void setparent(WanderState *);
 	bool centered; //specific for the player
 	std::string name;
@@ -32,6 +33,13 @@ public:
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
 	WanderState * parent; // Used for things like collisions
+
+	// Accessors
+	int getx();
+	int gety();
+	int getmapx();
+	int getmapy();
+	int getdirection();
 
 	// Callback Functions
 	luabridge::LuaRef * onactivatef;

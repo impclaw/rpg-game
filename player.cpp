@@ -9,14 +9,13 @@ Character::Character()
 }
 
 
-Player::Player(GameEngine* engine)
+Player::Player(GameEngine* engine) : MapObject(engine, "player.png")
 {
 	createparty();
 	steps = 0;
 	kills = 0;
 	gold = 50;
-	obj = new MapObject(engine, "player");
-	obj->centered = true;
+	centered = true;
 }
 
 void Player::createparty()
@@ -24,27 +23,17 @@ void Player::createparty()
 	party[0].name = "Player";
 	party[0].cclass = "Computer Programmer";
 	party[0].active = true;
-	party[0].portrait = "player-face";
+	party[0].portrait = "player-face.png";
 	party[0].xp = 42482;
-}
-
-int Player::getx()
-{
-	return obj->x;
-}
-
-int Player::gety()
-{
-	return obj->y;
 }
 
 void Player::keydown(int key)
 {
 	if(key == sf::Keyboard::Return)
 	{
-		int targetx = obj->mapx;
-		int targety = obj->mapy;
-		switch(obj->direction)
+		int targetx = mapx;
+		int targety = mapy;
+		switch(direction)
 		{
 			case 1: targety++; break;
 			case 2: targetx--; break;
@@ -52,12 +41,12 @@ void Player::keydown(int key)
 			case 4: targety--; break;
 		}
 		MapObject * target = NULL;
-		for(auto o : obj->parent->objects)
+		for(auto o : parent->objects)
 			if(targetx == o->mapx && targety == o->mapy)
 				target = o;
 		if(target != NULL)
 		{
-			obj->parent->activateobject(target);
+			parent->activateobject(target);
 		}
 	}
 }
@@ -82,19 +71,19 @@ void Player::update()
 		updown = false;
 	
 	if(downdown)
-		obj->step(1);
+		step(1);
 	if(leftdown)
-		obj->step(2);
+		step(2);
 	if(rightdown)
-		obj->step(3);
+		step(3);
 	if(updown)
-		obj->step(4);
-	obj->update();
+		step(4);
+	MapObject::update();
 }
 
 void Player::render(GameEngine* engine)
 {
-	obj->render(engine);
+	MapObject::render(engine);
 }
 
 int xptolevel(int exp)

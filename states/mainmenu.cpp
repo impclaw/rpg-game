@@ -7,7 +7,7 @@ const sf::Color MainMenuState::portraitcolor (45, 45, 180, 255);
 
 void MainMenuState::init(GameEngine* engine)
 {
-	arrow = new sf::Sprite(*(engine->resources->getTexture("menuarrow")));
+	arrow = new sf::Sprite(*(engine->resources->getTexture("menuarrow.png")));
 	arrowpos = 0;
 	fadevalue = 255;
 	fadedir = 1;

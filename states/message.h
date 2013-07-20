@@ -23,7 +23,7 @@ public:
 	virtual void render(GameEngine*);
 
 	// Callback Functions
-	luabridge::LuaRef * onclosef;
+	luabridge::LuaRef * onclosef = NULL;
 	void lua_onclose(luabridge::LuaRef ll); 
 	void onclose();
 

@@ -119,6 +119,18 @@ void MapObject::turn(int dir)
 	update();
 }
 
+void MapObject::face(MapObject * target)
+{
+	direction = 5 - target->direction;
+	update();
+}
+
+int MapObject::getx() { return x; }
+int MapObject::gety() { return y; }
+int MapObject::getmapx() { return mapx; }
+int MapObject::getmapy() { return mapy; }
+int MapObject::getdirection() { return direction; }
+
 void MapObject::lua_onactivate(luabridge::LuaRef ll) 
 {
 	onactivatef = new luabridge::LuaRef(ll);
