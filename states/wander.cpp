@@ -13,7 +13,17 @@ WanderState::~WanderState()
 
 void WanderState::addobject(MapObject * o)
 {
+	if(o == NULL)
+	{
+		fprintf(stderr, "ERROR: Attempting to att nil event to wanderstate. ");
+		exit(0);
+	}
 	objects.push_back(o);
+}
+
+void WanderState::wait(int ticks)
+{
+	waitticks = ticks;
 }
 
 void WanderState::activateobject(MapObject * o)
@@ -31,6 +41,8 @@ void WanderState::activateobject(MapObject * o)
 
 void WanderState::keypressed(GameEngine* engine, int key)
 {
+	if(waitticks > 0)
+		return;
 	if(key == sf::Keyboard::Escape)
 	{
 		MainMenuState* mm = new MainMenuState();
@@ -50,6 +62,13 @@ void WanderState::resume()
 
 void WanderState::update(GameEngine* engine)
 {
+	if(waitticks > 0)
+		waitticks--;
+	else if (waitticks == 0)
+	{
+		waitticks = -1;
+		onwaitdone();
+	}
 	engine->player->update();
 	for(auto o : objects)
 		o->update();
@@ -80,3 +99,12 @@ void WanderState::render(GameEngine* engine)
 	engine->player->render(engine);
 }
 
+void WanderState::lua_onwaitdone(luabridge::LuaRef ll) 
+{
+	onwaitdonef = new luabridge::LuaRef(ll);
+}
+
+void WanderState::onwaitdone()
+{
+	if(onwaitdonef != NULL) (*onwaitdonef)();
+}

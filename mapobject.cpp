@@ -9,9 +9,13 @@ void MapObject::_init(GameEngine * engine, std::string spritename)
 	stepsleft = 0;
 	walkstate = 0;
 	direction = 1;
+	blocking = false;
 	centered = false;
 	map = NULL;
-	sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
+	if(spritename != "")
+		sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
+	else
+		sprite = NULL;
 }
 
 MapObject::MapObject(GameEngine * engine, std::string spritename)
@@ -46,16 +50,20 @@ void MapObject::update()
 		if(stepsleft == 0)
 			walkstate = 0;
 	}
+}
+
+void MapObject::render(GameEngine * engine)
+{
+	if(sprite == NULL)
+		return;
+
 	int srcx = 1;
 	int srcy = direction-1;
 	if(walkstate == 1)
 		srcx = stepsleft / 12;
 
 	sprite->setTextureRect(sf::IntRect(srcx*32, srcy*32, 32, 32));
-}
 
-void MapObject::render(GameEngine * engine)
-{
 	if(centered)
 		sprite->setPosition(800/2-32, 600/2-32);
 	else
@@ -66,7 +74,7 @@ void MapObject::render(GameEngine * engine)
 		int sy = -py + 600 / 2 - 32;
 		sprite->setPosition(sf::Vector2f(x+sx, y+sy));
 	}
-	engine->window->draw(*sprite);
+		engine->window->draw(*sprite);
 }
 
 void MapObject::setparent(WanderState * state)
@@ -92,7 +100,7 @@ void MapObject::step(int dir)
 		bool ocol = false;
 		for(auto o : parent->objects)
 		{
-			if(o->mapx == nextmapx && o->mapy == nextmapy)
+			if(o->mapx == nextmapx && o->mapy == nextmapy && o->blocking)
 				ocol = true;
 		}
 		
@@ -116,13 +124,11 @@ void MapObject::step(int dir)
 void MapObject::turn(int dir)
 {
 	direction = dir;
-	update();
 }
 
 void MapObject::face(MapObject * target)
 {
 	direction = 5 - target->direction;
-	update();
 }
 
 int MapObject::getx() { return x; }
@@ -130,6 +136,8 @@ int MapObject::gety() { return y; }
 int MapObject::getmapx() { return mapx; }
 int MapObject::getmapy() { return mapy; }
 int MapObject::getdirection() { return direction; }
+
+void MapObject::setblocking(bool b) { blocking = b; }
 
 void MapObject::lua_onactivate(luabridge::LuaRef ll) 
 {

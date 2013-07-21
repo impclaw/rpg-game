@@ -15,11 +15,17 @@ public:
 	virtual void render(GameEngine*);
 	void activateobject(MapObject * o);
 	void addobject(MapObject*);
-
+	void wait(int ticks);
 
 	virtual ~WanderState();
 	std::vector<MapObject *> objects;
 	Map* map;
+
+	//Callback Functions
+	luabridge::LuaRef * onwaitdonef = NULL;
+	void lua_onwaitdone(luabridge::LuaRef ll); 
+	void onwaitdone();
 private:
 	sf::Sprite* tiledrawer;
+	int waitticks = -1;
 };

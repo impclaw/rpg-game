@@ -30,6 +30,7 @@ public:
 	bool centered; //specific for the player
 	std::string name;
 	int x, y;
+	bool blocking;
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
 	WanderState * parent; // Used for things like collisions
@@ -40,6 +41,9 @@ public:
 	int getmapx();
 	int getmapy();
 	int getdirection();
+
+	// Mutators
+	void setblocking(bool b);
 
 	// Callback Functions
 	luabridge::LuaRef * onactivatef;

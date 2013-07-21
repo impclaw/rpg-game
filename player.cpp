@@ -40,13 +40,12 @@ void Player::keydown(int key)
 			case 3: targetx++; break;
 			case 4: targety--; break;
 		}
-		MapObject * target = NULL;
 		for(auto o : parent->objects)
-			if(targetx == o->mapx && targety == o->mapy)
-				target = o;
-		if(target != NULL)
 		{
-			parent->activateobject(target);
+			if(targetx == o->mapx && targety == o->mapy && o->blocking)
+				parent->activateobject(o);
+			if(mapx == o->mapx && mapy == o->mapy && !o->blocking)
+				parent->activateobject(o);
 		}
 	}
 }
