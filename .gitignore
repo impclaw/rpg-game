@@ -3,3 +3,5 @@ data.pk3
 *.sh
 game
 editor/*.map
+res
+res/*
