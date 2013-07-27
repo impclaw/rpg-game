@@ -26,6 +26,8 @@ public:
 	void keydown(int key);
 	void update();
 	void render(GameEngine*);
+	int itemslots[200];
+	int itemcounts[200];
 private:
 	bool leftdown, rightdown, updown, downdown;
 	void createparty();

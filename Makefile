@@ -1,6 +1,6 @@
 #########################
 # customise these
-CFILES := $(wildcard states/*.cpp) $(wildcard *.cpp)
+CFILES := $(wildcard gui/*.cpp) $(wildcard states/*.cpp) $(wildcard *.cpp)
 PROG := game
 CXXFLAGS := -Wall -Wextra -g -std=c++11 -pedantic -Wno-unused-variable -Wno-unused-parameter -Wno-unused-private-field
 LDFLAGS := -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -llua5.1 -ldl

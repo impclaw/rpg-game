@@ -162,7 +162,7 @@ Resources::Resources(std::string fname)
 			Map * map = new Map(data, f->origsize);
 			maps[filename] = map;
 		}
-		else if(endsWith(filename, "lua"))
+		else if(endsWith(filename, "lua") || endsWith(filename, "txt"))
 		{
 			PackageFile * f = package->getfile(filename);
 			string * text = package->gettextdata(f);

@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "res.h"
+#include "db.h"
 
 class Player;
 class GameState;
@@ -12,6 +13,7 @@ public:
 	sf::RenderWindow *window;
 	Resources *resources;
 	Player *player;
+	Database * db;
 
 	void init(sf::RenderWindow*);
 	void cleanup();

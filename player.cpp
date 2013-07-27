@@ -12,6 +12,14 @@ Character::Character()
 Player::Player(GameEngine* engine) : MapObject(engine, "player.png")
 {
 	createparty();
+	for (int i = 0; i < 200; i++)
+	{
+		itemslots[i] = -1;
+	}
+	itemslots[0] = 1;
+	itemcounts[0] = 5;
+	itemslots[1] = 0;
+	itemcounts[1] = 3;
 	steps = 0;
 	kills = 0;
 	gold = 50;

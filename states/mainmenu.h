@@ -5,6 +5,7 @@
 #include "../res.h"
 #include "../sys.h"
 #include "message.h"
+#include "itemmenu.h"
 
 enum MainMenuItem {
 	MAINMENU_ITEMS,
@@ -24,6 +25,7 @@ public:
 	virtual void render(GameEngine*);
 	virtual ~MainMenuState();
 	static const sf::Color outlinecolor;
+	static const sf::Color lightfillcolor;
 	static const sf::Color fillcolor;
 	static const sf::Color darkfillcolor;
 	static const sf::Color portraitcolor;

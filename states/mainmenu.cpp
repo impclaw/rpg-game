@@ -1,6 +1,7 @@
 #include "mainmenu.h"
 
 const sf::Color MainMenuState::outlinecolor (210, 210, 250, 255);
+const sf::Color MainMenuState::lightfillcolor (95, 95, 250, 255);
 const sf::Color MainMenuState::fillcolor (65, 65, 230, 255);
 const sf::Color MainMenuState::darkfillcolor (35, 35, 125, 255);
 const sf::Color MainMenuState::portraitcolor (45, 45, 180, 255);
@@ -115,6 +116,11 @@ void MainMenuState::keypressed(GameEngine* engine, int key)
 	}
 	if(key == sf::Keyboard::Return)
 	{
+		if(arrowpos == MAINMENU_ITEMS)
+		{
+			ItemMenuState * ims = new ItemMenuState(engine);
+			engine->pushstate(ims);
+		}
 		if(arrowpos == MAINMENU_SAVE)
 		{
 			MessageState *ms = new MessageState(engine, "Savegame", "Your game has been saved. \nJust kidding! Saving is not implemented yet! \nPress enter to continue. ", 2);

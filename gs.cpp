@@ -5,6 +5,7 @@ void GameEngine::init(sf::RenderWindow * wnd)
 {
 	resources = new Resources("data.pk3");
 	player = new Player(this);
+	db = new Database(this);
 	window = wnd;
 }
 void GameEngine::cleanup()
