@@ -12,6 +12,11 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 
 	hr = new sf::RectangleShape(sf::Vector2f(600-32*1, 2));
 	hr->setPosition(200, 86);
+	lowhr = new sf::RectangleShape(sf::Vector2f(600-32*1, 2));
+	lowhr->setPosition(200, 520);
+
+	desctxt = new sf::Text("", engine->resources->mainfont, 26U);
+	desctxt->setPosition(216, 520);
 
 	usebtn = new XButton(engine, "Use",         216+108*0, 32+16, 100, 24);
 	arrangebtn = new XButton(engine, "Arrange", 216+108*1, 32+16, 100, 24);
@@ -38,8 +43,14 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 	updateitems(engine);
 }
 
+void ItemMenuState::getlocalpos()
+{
+
+}
+
 void ItemMenuState::keypressed(GameEngine* engine, int key)
 {
+	//Handle different keypresses
 	if(key == sf::Keyboard::Left)
 	{
 		if(subpos == -1 && menupos > 0)
@@ -98,6 +109,16 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 		else if (subpos > -1)
 			subpos = -1;
 	}
+
+	//Update description
+	if(subpos != -1 && menupos != -3)
+	{
+		if(engine->player->itemslots[subpos] != -1)
+			desctxt->setString(engine->db->items[engine->player->itemslots[subpos]]->description);
+		else
+			desctxt->setString("");
+	}
+	
 }
 
 void ItemMenuState::pause()
@@ -154,6 +175,8 @@ void ItemMenuState::render(GameEngine* engine)
 {
 	engine->window->draw(*bg);
 	engine->window->draw(*hr);
+	engine->window->draw(*lowhr);
+	engine->window->draw(*desctxt);
 	usebtn->render(engine);
 	arrangebtn->render(engine);
 	sortbtn->render(engine);

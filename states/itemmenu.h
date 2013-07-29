@@ -15,8 +15,11 @@ public:
 	virtual void update(GameEngine*);
 	virtual void render(GameEngine*);
 private:
+	int getlocalpos();
 	sf::RectangleShape * bg;
 	sf::RectangleShape * hr;
+	sf::RectangleShape * lowhr;
+	sf::Text* desctxt;
 	XButton* usebtn;
 	XButton* arrangebtn;
 	XButton* sortbtn;

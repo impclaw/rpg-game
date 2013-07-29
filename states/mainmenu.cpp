@@ -26,6 +26,7 @@ void MainMenuState::init(GameEngine* engine)
 		{
 			case MAINMENU_ITEMS: text = "Items"; break;
 			case MAINMENU_SKILLS: text = "Skills"; break;
+			case MAINMENU_EQUIP: text = "Equip"; break;
 			case MAINMENU_STATUS: text = "Status"; break;
 			case MAINMENU_SAVE: text = "Save"; break;
 		}

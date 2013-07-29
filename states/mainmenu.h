@@ -10,6 +10,7 @@
 enum MainMenuItem {
 	MAINMENU_ITEMS,
 	MAINMENU_SKILLS,
+	MAINMENU_EQUIP,
 	MAINMENU_STATUS,
 	MAINMENU_SAVE
 };
@@ -36,8 +37,8 @@ private:
 	int fadedir; // 0 if no fade, -1 if fade out, 1 if fade in
 
 	sf::Sprite *arrow;
-	sf::RectangleShape* itembgs[5];
-	sf::Text* itemtxt[5];
+	sf::RectangleShape* itembgs[6];
+	sf::Text* itemtxt[6];
 
 	sf::RectangleShape* charabgs[4];
 	sf::RectangleShape* chimgbgs[4];
