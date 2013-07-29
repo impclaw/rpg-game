@@ -22,9 +22,13 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 	{
 		int bx = 216+(i%2)*270;
 		int by = 32+48+16+(i/2)*26;
-		itembtns[i] = new XButton(engine, "", bx, by, 260, 24);
+		itemicons[i] = new sf::Sprite(*(engine->resources->getTexture("icons.png")));
+		itemicons[i]->setPosition(bx, by);
+		//itemicons[i]->setScale(0.67, 0.67);
+		itembtns[i] = new XButton(engine, "", bx+28, by, 260-28, 24);
 		itemnums[i] = new sf::Text("", engine->resources->mainfont, 26U);
 		itemnums[i]->setPosition(bx+240, by-8);
+		slotvisible[i] = false;
 	}
 
 	menupos = 0;
@@ -70,10 +74,7 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 			else if(menupos == 1)
 			{
 				if(arrselect == -1)
-				{
 					arrselect = subpos;
-					fprintf(stderr, "Arrselect %d\n",arrselect);
-				}
 				else
 				{
 					int tmp = engine->player->itemslots[arrselect];
@@ -84,7 +85,6 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 						engine->player->itemcounts[subpos];
 					engine->player->itemslots[subpos] = tmp;
 					engine->player->itemcounts[subpos] = tmpc;
-					fprintf(stderr, "Swapped %d %d %d %d\n", subpos, arrselect, tmp, tmpc);
 					arrselect = -1;
 					updateitems(engine);
 				}
@@ -116,8 +116,16 @@ void ItemMenuState::updateitems(GameEngine* engine)
 	{
 		if(engine->player->itemslots[i] != -1)
 		{
+			int n = engine->db->items[engine->player->itemslots[i]]->icon;
+			itemicons[i]->setTextureRect(sf::IntRect((n%16)*24, (n/16)*24, 24, 24));
 			itembtns[i]->settext(engine->db->items[engine->player->itemslots[i]]->name);
 			itemnums[i]->setString(std::to_string(engine->player->itemcounts[i]));
+			slotvisible[i] = true;
+		}
+		else
+		{
+			itembtns[i]->settext("");
+			slotvisible[i] = false;
 		}
 	}
 }
@@ -155,7 +163,11 @@ void ItemMenuState::render(GameEngine* engine)
 		for(int i = 0; i < 32; i++)
 		{
 			itembtns[i]->render(engine);
-			engine->window->draw(*itemnums[i]);
+			if(slotvisible[i])
+			{
+				engine->window->draw(*itemicons[i]);
+				engine->window->draw(*itemnums[i]);
+			}
 		}
 	}
 }

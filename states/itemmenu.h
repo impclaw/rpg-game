@@ -21,6 +21,8 @@ private:
 	XButton* arrangebtn;
 	XButton* sortbtn;
 	XButton* keybtn;
+	bool slotvisible[32];
+	sf::Sprite* itemicons[32];
 	XButton* itembtns[32];
 	sf::Text * itemnums[32];
 	int menupos; //Menu Position (-1 = None)

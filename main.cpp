@@ -9,6 +9,7 @@ int main()
 	GameEngine game;
 	sf::Clock clock;
 
+
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Test Game");
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(0);
