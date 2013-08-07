@@ -5,15 +5,19 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 {
 	bg = new sf::RectangleShape();
 	bg->setPosition(200, 32);
-	bg->setSize(sf::Vector2f(800-200-32, 600-32*2));
+	bg->setSize(sf::Vector2f(600-32, 600-32*2));
 	bg->setOutlineThickness(2);
 	bg->setFillColor(MainMenuState::fillcolor);
 	bg->setOutlineColor(MainMenuState::outlinecolor);
 
-	hr = new sf::RectangleShape(sf::Vector2f(600-32*1, 2));
+	hr = new sf::RectangleShape(sf::Vector2f(600-32, 2));
 	hr->setPosition(200, 86);
-	lowhr = new sf::RectangleShape(sf::Vector2f(600-32*1, 2));
+	lowhr = new sf::RectangleShape(sf::Vector2f(600-32, 2));
 	lowhr->setPosition(200, 520);
+	scbar = new sf::RectangleShape(sf::Vector2f(2, 600-32*6));
+	scbar->setPosition(760, 86+12);
+	scslider = new sf::RectangleShape(sf::Vector2f(8, 4));
+	scslider->setPosition(760-4, 86+12);
 
 	desctxt = new sf::Text("", engine->resources->mainfont, 26U);
 	desctxt->setPosition(216, 520);
@@ -43,9 +47,28 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 	updateitems(engine);
 }
 
-void ItemMenuState::getlocalpos()
+int ItemMenuState::getlocalpos()
 {
+	if(subpos < 16)
+		return subpos;
+	else if (subpos >= 200-16)
+		return subpos-(200-32);
+	else 
+		return subpos %2 == 0 ? 14 : 15;
+}
+int ItemMenuState::getlowpos()
+{
+	if(subpos < 16)
+		return 0;
+	else if (subpos >= 200-16)
+		return 200-32;
+	else 
+		return (subpos - 14)/2*2;
+}
 
+int ItemMenuState::gethighpos()
+{
+	return 32;
 }
 
 void ItemMenuState::keypressed(GameEngine* engine, int key)
@@ -62,8 +85,18 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 	{
 		if(subpos == -1 && menupos < 3)
 			menupos++;
-		if(subpos > -1 && menupos != 2 && subpos < 200)
+		if(subpos > -1 && menupos != 2 && subpos < 199)
 			subpos++;
+	}
+	if(key == sf::Keyboard::Up)
+	{
+		if(subpos > -1 && menupos != 2 && subpos > 1)
+			subpos-=2;
+	}
+	if(key == sf::Keyboard::Down)
+	{
+		if(subpos > -1 && menupos != 2 && subpos < 198)
+			subpos+=2;
 	}
 	if(key == sf::Keyboard::Return)
 	{
@@ -97,7 +130,7 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 					engine->player->itemslots[subpos] = tmp;
 					engine->player->itemcounts[subpos] = tmpc;
 					arrselect = -1;
-					updateitems(engine);
+					//updateitems(engine);
 				}
 			}
 		}
@@ -117,8 +150,12 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 			desctxt->setString(engine->db->items[engine->player->itemslots[subpos]]->description);
 		else
 			desctxt->setString("");
+
+		scslider->setPosition(760-4, 86+12+subpos*((600-32*6)/200.0f));
 	}
-	
+
+	//Update items
+	updateitems(engine);
 }
 
 void ItemMenuState::pause()
@@ -135,12 +172,13 @@ void ItemMenuState::updateitems(GameEngine* engine)
 {
 	for(int i = 0; i < 32; i++)
 	{
-		if(engine->player->itemslots[i] != -1)
+		int ip = getlowpos() + i;
+		if(engine->player->itemslots[ip] != -1)
 		{
-			int n = engine->db->items[engine->player->itemslots[i]]->icon;
+			int n = engine->db->items[engine->player->itemslots[ip]]->icon;
 			itemicons[i]->setTextureRect(sf::IntRect((n%16)*24, (n/16)*24, 24, 24));
-			itembtns[i]->settext(engine->db->items[engine->player->itemslots[i]]->name);
-			itemnums[i]->setString(std::to_string(engine->player->itemcounts[i]));
+			itembtns[i]->settext(engine->db->items[engine->player->itemslots[ip]]->name);
+			itemnums[i]->setString(std::to_string(engine->player->itemcounts[ip]));
 			slotvisible[i] = true;
 		}
 		else
@@ -167,7 +205,7 @@ void ItemMenuState::update(GameEngine*)
 	for(int i = 0; i < 32; i++)
 		itembtns[i]->deactivate();
 	if(subpos > -1)
-		itembtns[subpos]->activate();
+		itembtns[getlocalpos()]->activate();
 
 }
 
@@ -177,6 +215,8 @@ void ItemMenuState::render(GameEngine* engine)
 	engine->window->draw(*hr);
 	engine->window->draw(*lowhr);
 	engine->window->draw(*desctxt);
+	engine->window->draw(*scbar);
+	engine->window->draw(*scslider);
 	usebtn->render(engine);
 	arrangebtn->render(engine);
 	sortbtn->render(engine);

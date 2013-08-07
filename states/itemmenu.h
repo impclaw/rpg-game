@@ -16,9 +16,13 @@ public:
 	virtual void render(GameEngine*);
 private:
 	int getlocalpos();
+	int getlowpos();
+	int gethighpos();
 	sf::RectangleShape * bg;
 	sf::RectangleShape * hr;
 	sf::RectangleShape * lowhr;
+	sf::RectangleShape * scbar; //scrollbar bar
+	sf::RectangleShape * scslider; //scrollbar slider
 	sf::Text* desctxt;
 	XButton* usebtn;
 	XButton* arrangebtn;

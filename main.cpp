@@ -11,7 +11,7 @@ int main()
 
 
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Test Game");
-	window.setKeyRepeatEnabled(false);
+	window.setKeyRepeatEnabled(true);
 	window.setFramerateLimit(0);
 	game.init(&window);
 	lua_game = &game;

@@ -16,10 +16,12 @@ Player::Player(GameEngine* engine) : MapObject(engine, "player.png")
 	{
 		itemslots[i] = -1;
 	}
-	itemslots[0] = 1;
-	itemcounts[0] = 5;
-	itemslots[1] = 0;
-	itemcounts[1] = 3;
+	itemslots[0  ] = 1;itemcounts[0  ] = 5;
+	itemslots[1  ] = 0;itemcounts[1  ] = 3;
+	itemslots[150] = 0;itemcounts[150] = 3;
+	itemslots[100] = 0;itemcounts[100] = 3;
+	itemslots[198] = 0;itemcounts[198] = 3;
+	itemslots[199] = 0;itemcounts[199] = 3;
 	steps = 0;
 	kills = 0;
 	gold = 50;
