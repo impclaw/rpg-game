@@ -3,7 +3,7 @@
 CFILES := $(wildcard gui/*.cpp) $(wildcard states/*.cpp) $(wildcard *.cpp)
 PROG := game
 CXXFLAGS := -Wall -Wextra -g -std=c++11 -pedantic -Wno-unused-variable -Wno-unused-parameter -Wno-unused-private-field
-LDFLAGS := -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -llua5.2 -ldl
+LDFLAGS := -lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -llua5.1 -ldl
 ########################
 
 # -MMD generates dependencies while compiling

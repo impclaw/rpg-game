@@ -21,6 +21,8 @@ public:
 	std::vector<MapObject *> objects;
 	Map* map;
 
+	void changemap(GameEngine*, std::string);
+
 	//Callback Functions
 	luabridge::LuaRef * onwaitdonef = NULL;
 	void lua_onwaitdone(luabridge::LuaRef ll); 

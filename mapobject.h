@@ -6,9 +6,9 @@
 
 extern "C"
 {
-    #include <lua5.2/lua.h>
-    #include <lua5.2/lauxlib.h>
-    #include <lua5.2/lualib.h>
+    #include <lua5.1/lua.h>
+    #include <lua5.1/lauxlib.h>
+    #include <lua5.1/lualib.h>
 }
 #include "lb/LuaBridge.h"
 extern lua_State *lua_main;
@@ -30,7 +30,7 @@ public:
 	bool centered; //specific for the player
 	std::string name;
 	int x, y;
-	bool blocking;
+	bool blocking, walkover, frozen;
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
 	WanderState * parent; // Used for things like collisions
@@ -44,14 +44,16 @@ public:
 
 	// Mutators
 	void setblocking(bool b);
+	void setwalkover(bool b);
+	void setfrozen(bool b);
 	void setposition(int _x, int _y);
 
 	// Callback Functions
 	luabridge::LuaRef * onactivatef;
 	void lua_onactivate(luabridge::LuaRef ll); 
 	void onactivate();
+
 private:
-	Map * map;
 	sf::Sprite* sprite;
 	int walkstate;
 	int stepsleft;

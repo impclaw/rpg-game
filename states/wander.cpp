@@ -15,7 +15,7 @@ void WanderState::addobject(MapObject * o)
 {
 	if(o == NULL)
 	{
-		fprintf(stderr, "ERROR: Attempting to att nil event to wanderstate. ");
+		fprintf(stderr, "ERROR: Attempting to add nil event to wanderstate. ");
 		exit(0);
 	}
 	objects.push_back(o);
@@ -97,6 +97,11 @@ void WanderState::render(GameEngine* engine)
 		obj->render(engine);
 	}
 	engine->player->render(engine);
+}
+
+void WanderState::changemap(GameEngine* engine, std::string mapname) 
+{
+	map = engine->resources->getMap(mapname);
 }
 
 void WanderState::lua_onwaitdone(luabridge::LuaRef ll) 

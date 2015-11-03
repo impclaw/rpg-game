@@ -30,6 +30,7 @@ public:
 	int itemcounts[200];
 private:
 	bool leftdown, rightdown, updown, downdown;
+	bool walkdone;
 	void createparty();
 
 };

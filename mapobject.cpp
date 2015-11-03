@@ -11,7 +11,8 @@ void MapObject::_init(GameEngine * engine, std::string spritename)
 	direction = 1;
 	blocking = false;
 	centered = false;
-	map = NULL;
+	walkover = false;
+	frozen = false;
 	if(spritename != "")
 		sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
 	else
@@ -80,13 +81,13 @@ void MapObject::render(GameEngine * engine)
 void MapObject::setparent(WanderState * state)
 {
 	parent = state;
-	map = parent->map;
 }
 
 void MapObject::step(int dir)
 {
-	if(walkstate == 0)
+	if(walkstate == 0 && !frozen)
 	{
+		Map * map = parent->map;
 		int nextmapx = mapx;
 		int nextmapy = mapy;
 		switch(dir)
@@ -138,7 +139,15 @@ int MapObject::getmapy() { return mapy; }
 int MapObject::getdirection() { return direction; }
 
 void MapObject::setblocking(bool b) { blocking = b; }
-void MapObject::setposition(int _x, int _y) { x = _x; y = _y; }
+void MapObject::setwalkover(bool b) { walkover = b; }
+void MapObject::setfrozen(bool b) { frozen = b; }
+void MapObject::setposition(int _x, int _y) 
+{ 
+	mapx = _x; 
+	mapy = _y; 
+	x = mapx * 32;
+	y = mapy * 32;
+}
 
 void MapObject::lua_onactivate(luabridge::LuaRef ll) 
 {
