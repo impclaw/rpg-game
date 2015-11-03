@@ -138,6 +138,7 @@ int MapObject::getmapy() { return mapy; }
 int MapObject::getdirection() { return direction; }
 
 void MapObject::setblocking(bool b) { blocking = b; }
+void MapObject::setposition(int _x, int _y) { x = _x; y = _y; }
 
 void MapObject::lua_onactivate(luabridge::LuaRef ll) 
 {
