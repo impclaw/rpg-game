@@ -44,6 +44,7 @@ public:
 
 	// Mutators
 	void setblocking(bool b);
+	void setposition(int _x, int _y);
 
 	// Callback Functions
 	luabridge::LuaRef * onactivatef;
