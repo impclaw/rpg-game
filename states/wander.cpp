@@ -101,6 +101,7 @@ void WanderState::render(GameEngine* engine)
 
 void WanderState::changemap(GameEngine* engine, std::string mapname) 
 {
+	objects.clear();
 	map = engine->resources->getMap(mapname);
 }
 

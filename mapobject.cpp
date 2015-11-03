@@ -36,6 +36,11 @@ MapObject::MapObject(GameEngine * engine, std::string oname, std::string spriten
 	update();
 }
 
+MapObject::~MapObject()
+{
+	std::cout << "MapObject Cleared" << std::endl;
+}
+
 void MapObject::update()
 {
 	if(walkstate == 1) // Walking

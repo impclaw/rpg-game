@@ -21,6 +21,7 @@ public:
 	void _init(GameEngine *, std::string);
 	MapObject(GameEngine *, std::string);
 	MapObject(GameEngine *, std::string, std::string, int, int);
+	~MapObject();
 	void update();
 	void render(GameEngine *);
 	void step(int dir);
