@@ -39,7 +39,6 @@ public:
 	virtual void update(GameEngine*) = 0;
 	virtual void render(GameEngine*) = 0;
 	virtual ~GameState() {};
-
-
+	bool islua = false;
 };
 

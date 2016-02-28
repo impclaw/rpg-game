@@ -12,7 +12,7 @@
 class PackageFile
 {
 public:
-	std::string * name;
+	std::string name;
 	int fileposition;
 	int filesize;
 	int origsize;
@@ -26,7 +26,7 @@ private:
 	int fpos;
 	int readint();
 	short readshort();
-	std::string * readstring(int sz);
+	std::string readstring(int sz);
 	void skip(int sz);
 public:
 	std::vector<PackageFile*> * files;
@@ -65,6 +65,7 @@ private:
 	Package * package;
 public:
 	Resources(std::string filename);
+	~Resources();
 	sf::Texture *getTexture(std::string);
 	Map *getMap(std::string);
 	std::string *getText(std::string);

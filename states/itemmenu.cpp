@@ -33,7 +33,6 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 		int by = 32+48+16+(i/2)*26;
 		itemicons[i] = new sf::Sprite(*(engine->resources->getTexture("icons.png")));
 		itemicons[i]->setPosition(bx, by);
-		//itemicons[i]->setScale(0.67, 0.67);
 		itembtns[i] = new XButton(engine, "", bx+28, by, 260-28, 24);
 		itemnums[i] = new sf::Text("", engine->resources->mainfont, 26U);
 		itemnums[i]->setPosition(bx+240, by-8);
@@ -45,6 +44,25 @@ ItemMenuState::ItemMenuState(GameEngine* engine)
 	arrselect = -1;
 	charpos = -1;
 	updateitems(engine);
+}
+
+ItemMenuState::~ItemMenuState()
+{
+	for(int i = 0; i < 32; i++)
+	{
+		delete itemicons[i];
+		delete itembtns[i];
+		delete itemnums[i];
+	}
+	delete keybtn;
+	delete sortbtn;
+	delete arrangebtn;
+	delete usebtn;
+	delete desctxt;
+	delete scbar;
+	delete lowhr;
+	delete hr;
+	delete bg;
 }
 
 int ItemMenuState::getlocalpos()
@@ -138,7 +156,10 @@ void ItemMenuState::keypressed(GameEngine* engine, int key)
 	if(key == sf::Keyboard::Escape)
 	{
 		if(subpos == -1)
+		{
 			engine->popstate();
+			return;
+		}
 		else if (subpos > -1)
 			subpos = -1;
 	}

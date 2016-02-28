@@ -6,10 +6,11 @@ GameEngine * lua_game = 0;
 
 void lua_pushstate (GameState * t)
 { 
+	t->islua = true;
 	lua_game->pushstate(t);
 }
-void lua_pushwander (WanderState * t) { lua_game->pushstate(t); }
-void lua_pushmessage (MessageState * t) { lua_game->pushstate(t); }
+void lua_pushwander (WanderState * t)    { t->islua = true; lua_game->pushstate(t); }
+void lua_pushmessage (MessageState * t)  { t->islua = true; lua_game->pushstate(t); }
 GameEngine * lua_grabengine() { return lua_game; }
 Player * lua_grabplayer() { return lua_game->player; }
 
@@ -87,3 +88,7 @@ void luareg()
 		.addFunction("LuaLoad", lua_luaload);
 }
 
+void luaclose()
+{
+	lua_close(lua);
+}

@@ -11,7 +11,6 @@ bool endsWith (std::string const &fullString, std::string const &ending)
     }
 }
 
-
 /////////////////////////////////////////////
 //           Package Functions
 //
@@ -32,12 +31,12 @@ short Package::readshort()
 	return (((unsigned char)buf[0]) | ((unsigned char)buf[1] << 8));
 }
 
-string * Package::readstring(int sz)
+string Package::readstring(int sz)
 {
 	char * buf = new char[sz+1];
 	file->read(buf, sz);
 	buf[sz] = '\0';
-	string * str = new string(buf);
+	string str = buf;
 	delete buf;
 	fpos += sz;
 	return str;
@@ -69,7 +68,7 @@ Package::Package(string fname)
 			unsigned int compsize = readint();
 			int fnamesize = readshort();
 			int extrasize = readshort();
-			string * name = readstring(fnamesize);
+			string name = readstring(fnamesize);
 			PackageFile * f = new PackageFile();
 			f->name = name;
 			f->origsize = origsize;
@@ -88,7 +87,6 @@ Package::~Package()
 {
 	while(files->size() > 0)
 	{
-	    delete files->back()->name; // DELETING THIS CAUSES A SEGFAULT, WHY??????
 		delete files->back();
 		files->pop_back();
 	}
@@ -102,7 +100,7 @@ PackageFile * Package::getfile(string name)
 {
 	for(unsigned int i = 0; i < files->size(); i++)
 	{
-		if(files->at(i)->name->compare(name) == 0)
+		if(files->at(i)->name.compare(name) == 0)
 		{
 			return files->at(i);
 		}
@@ -144,7 +142,7 @@ Resources::Resources(std::string fname)
 	package = new Package(filename);
 	for(auto pkg : *(package->files))
 	{
-		std::string filename = *(pkg->name);
+		std::string filename = pkg->name;
 		info("Loading Resource: %s", filename.c_str());
 		
 		if(endsWith(filename, "png"))
@@ -172,6 +170,14 @@ Resources::Resources(std::string fname)
 
 	if(!mainfont.loadFromFile("font.ttf"))
 		info("Failed to load font.ttf");
+}
+
+Resources::~Resources()
+{
+	for(auto pkg : *(package->files))
+		delete pkg;
+	//for(auto tex : textures)
+		//delete tex;
 }
 
 sf::Texture* Resources::getTexture(std::string name)

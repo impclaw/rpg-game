@@ -8,6 +8,7 @@ class ItemMenuState : public GameState
 {
 public:
 	ItemMenuState(GameEngine*);
+	~ItemMenuState();
 	virtual void keypressed(GameEngine*, int key);
 	virtual void pause();
 	virtual void resume();

@@ -37,5 +37,7 @@ int main()
 		window.display();
 	}
 	game.cleanup();
+	luaclose();
+	info("Clean Exit");
 }
 

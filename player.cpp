@@ -28,6 +28,11 @@ Player::Player(GameEngine* engine) : MapObject(engine, "player.png")
 	centered = true;
 }
 
+Player::~Player()
+{
+	
+}
+
 void Player::createparty()
 {
 	party[0].name = "Player";

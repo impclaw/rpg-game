@@ -10,6 +10,9 @@ void GameEngine::init(sf::RenderWindow * wnd)
 }
 void GameEngine::cleanup()
 {
+	delete resources;
+	delete player;
+	delete db;
 }
 
 void GameEngine::keypressed(int key)
@@ -38,7 +41,8 @@ void GameEngine::popstate()
 	if(states.size() > 0)
 	{
 		GameState * gs = states.back();
-		//delete gs; //TODO: Are we managed by lua?
+		if(!gs->islua)
+			delete gs; 
 		states.pop_back();
 	}
 	else

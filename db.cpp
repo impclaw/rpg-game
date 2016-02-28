@@ -22,4 +22,15 @@ Database::Database(GameEngine * engine)
 		items[n] = i;
 		n++;
 	}
+	itemcount = n;
 }
+
+Database::~Database()
+{
+	for(int i = 0; i < itemcount; i++)
+	{
+		delete items[i];
+	}
+	delete[] items;
+}
+

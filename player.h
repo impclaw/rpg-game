@@ -21,6 +21,7 @@ class Player : public MapObject
 {
 public:
 	Player(GameEngine*);
+	~Player();
 	Character party[4];
 	int steps, kills, gold;
 	void keydown(int key);

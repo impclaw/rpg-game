@@ -26,6 +26,8 @@ class Database
 {
 public:
 	Database(GameEngine * engine);
+	~Database();
 	Item ** items;
+	int itemcount;
 };
 
