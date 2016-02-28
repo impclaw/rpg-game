@@ -21,6 +21,7 @@ public:
 	void _init(GameEngine *, std::string);
 	MapObject(GameEngine *, std::string);
 	MapObject(GameEngine *, std::string, std::string, int, int);
+	~MapObject();
 	void update();
 	void render(GameEngine *);
 	void step(int dir);
@@ -30,7 +31,7 @@ public:
 	bool centered; //specific for the player
 	std::string name;
 	int x, y;
-	bool blocking;
+	bool blocking, walkover, frozen;
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
 	WanderState * parent; // Used for things like collisions
@@ -44,13 +45,16 @@ public:
 
 	// Mutators
 	void setblocking(bool b);
+	void setwalkover(bool b);
+	void setfrozen(bool b);
+	void setposition(int _x, int _y);
 
 	// Callback Functions
 	luabridge::LuaRef * onactivatef;
 	void lua_onactivate(luabridge::LuaRef ll); 
 	void onactivate();
+
 private:
-	Map * map;
 	sf::Sprite* sprite;
 	int walkstate;
 	int stepsleft;

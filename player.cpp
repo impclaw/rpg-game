@@ -57,6 +57,7 @@ void Player::keydown(int key)
 		}
 		for(auto o : parent->objects)
 		{
+			if(o->walkover) continue;
 			if(targetx == o->mapx && targety == o->mapy && o->blocking)
 				parent->activateobject(o);
 			if(mapx == o->mapx && mapy == o->mapy && !o->blocking)
@@ -93,6 +94,23 @@ void Player::update()
 	if(updown)
 		step(4);
 	MapObject::update();
+
+	if(downdown || updown || leftdown || rightdown)
+		walkdone = false;
+
+
+	if(x % 32 == 0 && y % 32 == 0)
+	{
+		if(!walkdone) 
+		{
+			for(auto o : parent->objects)
+			{
+				if(mapx == o->mapx && mapy == o->mapy && o->walkover)
+					parent->activateobject(o);
+			}
+			walkdone = true;
+		}
+	}
 }
 
 void Player::render(GameEngine* engine)

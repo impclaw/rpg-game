@@ -21,17 +21,22 @@ void runluafile(std::string filename)
 	fprintf(stderr, "Loading Script: %s \n", filename.c_str());
 	std::string* luascript = lua_game->resources->getText(filename);
 
-	int pos = luascript->find("LuaLoad");
-	if(pos != (int)std::string::npos)
-	{
-		pos += 9;
-		const char * ll = luascript->c_str();
-		char lfile[64]; //TODO: This is not secure!!!
-		int i = 0;
-		while(ll[pos] != '"')
-			lfile[i++] = ll[pos++];
-		lfile[i] = 0;
-		runluafile(std::string(lfile));
+	int pos = 0;
+	while(true) {
+		pos = luascript->find("LuaLoad", pos);
+		if(pos != (int)std::string::npos)
+		{
+			pos += 9;
+			const char * ll = luascript->c_str();
+			char lfile[64]; //TODO: This is not secure!!!
+			int i = 0;
+			while(ll[pos] != '"')
+				lfile[i++] = ll[pos++];
+			lfile[i] = 0;
+			runluafile(std::string(lfile));
+		}
+		else 
+			break;
 	}
 
 	if(luaL_dostring(lua, luascript->c_str()) == 1)
@@ -56,6 +61,7 @@ void luareg()
 		.deriveClass<WanderState, GameState>("CWanderState")
 			.addConstructor <void (*) (GameEngine*)> ()
 			.addFunction ("add", &WanderState::addobject)
+			.addFunction ("changeMap", &WanderState::changemap)
 			.addFunction ("wait", &WanderState::wait)
 			.addFunction ("onWaitDone", &WanderState::lua_onwaitdone)
 		.endClass();
@@ -70,8 +76,12 @@ void luareg()
 			.addConstructor <void (*) (GameEngine*,std::string,std::string,int,int)> ()
 			.addFunction("turn", &MapObject::turn)
 			.addFunction("face", &MapObject::face)
+			.addFunction("step", &MapObject::step)
 			.addFunction("setBlocking", &MapObject::setblocking)
+			.addFunction("setWalkover", &MapObject::setwalkover)
+			.addFunction("setFrozen", &MapObject::setfrozen)
 			.addFunction("onActivate", &MapObject::lua_onactivate)
+			.addFunction("setPosition", &MapObject::setposition)
 		.endClass()
 		.deriveClass<Player, MapObject>("CPlayer")
 			.addFunction("getX", &Player::getmapx)
