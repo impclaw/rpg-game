@@ -1,0 +1,24 @@
+Events: (some pure lua?)
+	Show Choices
+	Change Map
+	Change Entity Opacity
+	Fadeout Screen
+	Fadein Screen
+	Tint Screen
+	Flash Screen
+	Shake Screen
+	Erase Event
+	Weather FX
+	Play BGM
+	Fadeout BGM
+	Stop BGM
+	Play SFX
+
+Move Events: (which ones can be done in pure lua?)
+	Forward
+	Backward
+	Turn 90
+	Turn 180
+
+More Events: 
+	Balloon Icon

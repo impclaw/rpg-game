@@ -32,12 +32,14 @@ void GameEngine::render()
 }
 void GameEngine::pushstate(GameState* gs)
 {
-	info("Pushing Gamestate");
 	states.push_back(gs);
+}
+GameState* GameEngine::currentstate()
+{
+	return states.back();
 }
 void GameEngine::popstate()
 {
-	info("Popping Gamestate");
 	if(states.size() > 0)
 	{
 		GameState * gs = states.back();

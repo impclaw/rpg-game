@@ -15,7 +15,9 @@ extern "C"
 class MessageState : public GameState
 {
 public:
+	MessageState(GameEngine*, std::string, std::string, int, std::string);
 	MessageState(GameEngine*, std::string, std::string, int);
+	MessageState(GameEngine*, std::string, std::string);
 	virtual void keypressed(GameEngine*, int key);
 	virtual void pause();
 	virtual void resume();
@@ -32,14 +34,17 @@ private:
 	int position;
 	int fadedir;
 	int fadevalue;
+	int drawnletters, lettertimer;
 
-	std::string message;
+	std::string message, fullmessage;
 	std::string title;
 
 	sf::RectangleShape* bg;
 	sf::RectangleShape* bgblur;
 	sf::RectangleShape* fade;
 	sf::RectangleShape* titlebg;
+	sf::RectangleShape* spritebg;
+	sf::Sprite* sprite;
 
 	sf::Text* titletxt;
 	sf::Text* bodytxt;

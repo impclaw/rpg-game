@@ -13,6 +13,8 @@ void MapObject::_init(GameEngine * engine, std::string spritename)
 	centered = false;
 	walkover = false;
 	frozen = false;
+	this->engine = engine;
+	speed = 3;
 	if(spritename != "")
 		sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
 	else
@@ -45,14 +47,15 @@ void MapObject::update()
 {
 	if(walkstate == 1) // Walking
 	{
+		int step = speed > stepsleft ? stepsleft : speed;
 		switch(direction)
 		{
-			case 1: y+=2; break;
-			case 2: x-=2; break;
-			case 3: x+=2; break;
-			case 4: y-=2; break;
+			case 1: y+=step; break;
+			case 2: x-=step; break;
+			case 3: x+=step; break;
+			case 4: y-=step; break;
 		}
-		stepsleft-=2;
+		stepsleft-=step;
 		if(stepsleft == 0)
 			walkstate = 0;
 	}
@@ -92,7 +95,8 @@ void MapObject::step(int dir)
 {
 	if(walkstate == 0 && !frozen)
 	{
-		Map * map = parent->map;
+		WanderState* state = dynamic_cast<WanderState*>(engine->currentstate());
+		Map * map = state->map;
 		int nextmapx = mapx;
 		int nextmapy = mapy;
 		switch(dir)
@@ -104,7 +108,7 @@ void MapObject::step(int dir)
 		}
 		
 		bool ocol = false;
-		for(auto o : parent->objects)
+		for(auto o : state->objects)
 		{
 			if(o->mapx == nextmapx && o->mapy == nextmapy && o->blocking)
 				ocol = true;

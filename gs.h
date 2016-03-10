@@ -23,6 +23,7 @@ public:
 
 	void pushstate(GameState*);
 	void popstate();
+	GameState* currentstate();
 
 private:
 	std::vector<GameState*> states;

@@ -34,6 +34,7 @@ public:
 	bool blocking, walkover, frozen;
 	int mapx, mapy;
 	int direction; // 1^, 2<-, 3->, 4v
+	int speed;
 	WanderState * parent; // Used for things like collisions
 
 	// Accessors
@@ -53,6 +54,7 @@ public:
 	luabridge::LuaRef * onactivatef;
 	void lua_onactivate(luabridge::LuaRef ll); 
 	void onactivate();
+	GameEngine* engine;
 
 private:
 	sf::Sprite* sprite;

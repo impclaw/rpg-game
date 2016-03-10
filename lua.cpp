@@ -20,6 +20,10 @@ void runluafile(std::string filename)
 {
 	fprintf(stderr, "Loading Script: %s \n", filename.c_str());
 	std::string* luascript = lua_game->resources->getText(filename);
+	if (luascript == NULL) {
+		fprintf(stderr, "Error: LuaLoad script not found %s", filename.c_str());
+		exit(1);
+	}
 
 	int pos = 0;
 	while(true) {
@@ -55,7 +59,7 @@ void luareg()
 		.beginClass<GameState>("CGameState")
 		.endClass()
 		.deriveClass<MessageState, GameState>("CMessageState")
-			.addConstructor <void (*) (GameEngine*, std::string, std::string, int)> ()
+			.addConstructor <void (*) (GameEngine*, std::string, std::string, int, std::string)> ()
 			.addFunction ("onClose", &MessageState::lua_onclose)
 		.endClass()
 		.deriveClass<WanderState, GameState>("CWanderState")
