@@ -14,7 +14,7 @@ void MapObject::_init(GameEngine * engine, std::string spritename)
 	walkover = false;
 	frozen = false;
 	this->engine = engine;
-	speed = 3;
+	speed = 2;
 	if(spritename != "")
 		sprite = new sf::Sprite(*(engine->resources->getTexture(spritename)));
 	else
@@ -74,13 +74,13 @@ void MapObject::render(GameEngine * engine)
 	sprite->setTextureRect(sf::IntRect(srcx*32, srcy*32, 32, 32));
 
 	if(centered)
-		sprite->setPosition(800/2-32, 600/2-32);
+		sprite->setPosition(engine->viewwidth/2-32, engine->viewheight/2-32);
 	else
 	{
 		int px = engine->player->getx(); // player coords
 		int py = engine->player->gety();
-		int sx = -px + 800 / 2 - 32; //player character location
-		int sy = -py + 600 / 2 - 32;
+		int sx = -px + engine->viewwidth / 2 - 32; //player character location
+		int sy = -py + engine->viewheight / 2 - 32;
 		sprite->setPosition(sf::Vector2f(x+sx, y+sy));
 	}
 		engine->window->draw(*sprite);

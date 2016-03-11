@@ -20,40 +20,41 @@ MessageState::MessageState(GameEngine* engine, std::string ttl, std::string msg,
 	position = pos;
 	drawnletters = lettertimer = 0;
 	bg = new sf::RectangleShape();
-	bg->setSize(sf::Vector2f(800-100, 600/4));
+	bg->setSize(sf::Vector2f(engine->viewwidth-32, engine->viewheight/4));
 	int y;
 	switch(pos)
 	{
-		case 1: y = 32; break;
+		case 1: y = 16; break;
 		case 2: y = 225; break;
 		case 3: y = 350; break;
 	}
-	bg->setPosition(50, y);
+	bg->setPosition(16, y);
 	bg->setOutlineThickness(2);
 	bg->setFillColor(MainMenuState::fillcolor);
 	bg->setOutlineColor(MainMenuState::outlinecolor);
 
 	titlebg = new sf::RectangleShape();
-	titlebg->setSize(sf::Vector2f(160, 28));
-	titlebg->setPosition(62, y-14);
-	titlebg->setOutlineThickness(2);
+	titlebg->setSize(sf::Vector2f(120, 20));
+	titlebg->setPosition(32, y-10);
+	titlebg->setOutlineThickness(1);
 	titlebg->setFillColor(MainMenuState::fillcolor);
 	titlebg->setOutlineColor(MainMenuState::outlinecolor);
 
-	titletxt = new sf::Text(title, engine->resources->mainfont, 28U);
-	titletxt->setPosition(70, y-20);
+	titletxt = new sf::Text(title, engine->resources->mainfont, 14U);
+	titletxt->setPosition(40, y-10);
 
-	bodytxt = new sf::Text(message, engine->resources->mainfont, 28U);
-	bodytxt->setPosition(58, y+12);
+	bodytxt = new sf::Text(message, engine->resources->mainfont, 14U);
+	bodytxt->setPosition(40, y+12);
 
 	if(!facesprite.empty()) {
 		sprite = new sf::Sprite(*(engine->resources->getTexture(facesprite)));
 		spritebg = new sf::RectangleShape();
-		sprite->setPosition(64, y+32);
-		bodytxt->setPosition(190, y+12);
-		spritebg->setSize(sf::Vector2f(100, 100));
-		spritebg->setPosition(64, y+32);
-		spritebg->setOutlineThickness(2);
+		sprite->setPosition(32, y+13);
+		sprite->setScale(0.75f, 0.75f);
+		bodytxt->setPosition(32+75+16, y+12);
+		spritebg->setSize(sf::Vector2f(75, 75));
+		spritebg->setPosition(32, y+13);
+		spritebg->setOutlineThickness(1);
 		spritebg->setFillColor(MainMenuState::fillcolor);
 		spritebg->setOutlineColor(MainMenuState::outlinecolor);
 	}
@@ -70,6 +71,8 @@ MessageState::~MessageState()
 	delete titletxt;
 	delete titlebg;
 	delete bg;
+	if (sprite != NULL) delete sprite;
+	if (spritebg != NULL) delete spritebg;
 }
 
 void MessageState::keypressed(GameEngine*, int key)

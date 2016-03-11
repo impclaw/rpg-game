@@ -1,12 +1,19 @@
 #include "gs.h"
 #include "player.h" // forward declarations
 
-void GameEngine::init(sf::RenderWindow * wnd)
+void GameEngine::init(sf::RenderWindow * wnd, int vw, int vh)
 {
 	resources = new Resources("data.pk3");
 	player = new Player(this);
 	db = new Database(this);
 	window = wnd;
+	sf::View view;
+	viewwidth = vw;
+	viewheight = vh;
+	view.reset(sf::FloatRect(0, 0, vw, vh));
+	double dh = (1.7777777777 - 1920/1200.0f)/2.0;
+	view.setViewport(sf::FloatRect(0.f, dh, 1.f, 1.f-dh*2));
+	window->setView(view);
 }
 void GameEngine::cleanup()
 {

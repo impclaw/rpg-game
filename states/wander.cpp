@@ -78,8 +78,8 @@ void WanderState::render(GameEngine* engine)
 {
 	int px = engine->player->getx(); // player coords
 	int py = engine->player->gety();
-	int sx = -px + 800 / 2 - 32; //player character location
-	int sy = -py + 600 / 2 - 32;
+	int sx = -px + engine->viewwidth / 2 - 32; //player character location
+	int sy = -py + engine->viewheight / 2 - 32;
 	for(int n = 0; n < map->width * map->height; n++)
 	{
 		for(int l = 0; l < 3; l++)

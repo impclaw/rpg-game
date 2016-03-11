@@ -15,7 +15,7 @@ public:
 	Player *player;
 	Database * db;
 
-	void init(sf::RenderWindow*);
+	void init(sf::RenderWindow*, int vw, int vh);
 	void cleanup();
 	void keypressed(int key);
 	void update();
@@ -24,6 +24,10 @@ public:
 	void pushstate(GameState*);
 	void popstate();
 	GameState* currentstate();
+	int viewheight, viewwidth;
+	int wndheight, wndwidth;
+	int padtop;
+	float scalex, scaley;
 
 private:
 	std::vector<GameState*> states;
