@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include "states/wander.h"
-#include "settings.h"
 #include "gs.h"
 #include "res.h"
 #include "lua.h"

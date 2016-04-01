@@ -21,6 +21,7 @@ clean :
 	rm -f $(PROG) $(OBJFILES) $(DEPFILES)
 
 data: 
-	-zip -j -r -0 data.pk3 res/*
+	sh scripts/compilemaps.sh
+	sh scripts/createpk3.sh
 
 -include $(DEPFILES)
